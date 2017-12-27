@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -74,12 +73,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     @Override
     public void onBindViewHolder(ProjectViewHolder holder, int position) {
-
+        holder.binding.setProject(projectList.get(position));
+        holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return projectList.size();
     }
 
     public class ProjectViewHolder extends RecyclerView.ViewHolder {

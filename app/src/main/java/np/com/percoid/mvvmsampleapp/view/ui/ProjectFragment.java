@@ -1,12 +1,12 @@
 package np.com.percoid.mvvmsampleapp.view.ui;
 
 import android.arch.lifecycle.LifecycleFragment;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +16,13 @@ import javax.inject.Inject;
 import np.com.percoid.mvvmsampleapp.R;
 import np.com.percoid.mvvmsampleapp.databinding.FragmentProjectDetailsBinding;
 import np.com.percoid.mvvmsampleapp.di.Injectable;
-import np.com.percoid.mvvmsampleapp.service.model.Project;
 import np.com.percoid.mvvmsampleapp.viewmodel.ProjectViewModel;
 
 /**
  * Created by Subrat on 12/26/2017.
  */
 
-public class ProjectFragment extends LifecycleFragment implements Injectable {
+public class ProjectFragment extends Fragment implements Injectable {
     private static final String KEY_PROJECT_ID = "project_id";
     private FragmentProjectDetailsBinding binding;
 
@@ -58,13 +57,10 @@ public class ProjectFragment extends LifecycleFragment implements Injectable {
 
     private void observeViewModel(final ProjectViewModel viewModel) {
         // Observe project data
-        viewModel.getObservableProject().observe(this, new Observer<Project>() {
-            @Override
-            public void onChanged(@Nullable Project project) {
-                if (project != null) {
-                    binding.setIsLoading(false);
-                    viewModel.setProject(project);
-                }
+        viewModel.getObservableProject().observe(this, project -> {
+            if (project != null) {
+                binding.setIsLoading(false);
+                viewModel.setProject(project);
             }
         });
     }

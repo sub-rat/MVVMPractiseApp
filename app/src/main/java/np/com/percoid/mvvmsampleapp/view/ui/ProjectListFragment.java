@@ -9,6 +9,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import np.com.percoid.mvvmsampleapp.viewmodel.ProjectListViewModel;
  * Created by Subrat on 12/26/2017.
  */
 
-public class ProjectListFragment extends LifecycleFragment implements Injectable {
+public class ProjectListFragment extends Fragment implements Injectable {
     public static final String TAG = "ProjectListFragment";
     private ProjectAdapter projectAdapter;
     private FragmentProjectListBinding binding;
@@ -62,23 +63,17 @@ public class ProjectListFragment extends LifecycleFragment implements Injectable
 
     private void observeViewModel(ProjectListViewModel viewModel) {
         // Update the list when the data changes
-        viewModel.getProjectListObservable().observe(this, new Observer<List<Project>>() {
-            @Override
-            public void onChanged(@Nullable List<Project> projects) {
-                if (projects != null) {
-                    binding.setIsLoading(false);
-                    projectAdapter.setProjectList(projects);
-                }
+        viewModel.getProjectListObservable().observe(this, projects -> {
+            if (projects != null) {
+                binding.setIsLoading(false);
+                projectAdapter.setProjectList(projects);
             }
         });
     }
 
-    private final ProjectClickCallback projectClickCallback = new ProjectClickCallback() {
-        @Override
-        public void onClick(Project project) {
-            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((MainActivity) getActivity()).show(project);
-            }
+    private final ProjectClickCallback projectClickCallback = project -> {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            ((MainActivity) getActivity()).show(project);
         }
     };
 }
