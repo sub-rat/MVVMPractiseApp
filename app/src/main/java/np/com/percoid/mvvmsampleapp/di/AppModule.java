@@ -9,6 +9,7 @@ import dagger.Provides;
 import np.com.percoid.mvvmsampleapp.service.repository.GitHubService;
 import np.com.percoid.mvvmsampleapp.viewmodel.ProjectViewModelFactory;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -23,6 +24,7 @@ public class AppModule {
         return new Retrofit.Builder()
                 .baseUrl(GitHubService.HTTPS_API_GITHUB_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(GitHubService.class);
     }

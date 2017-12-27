@@ -8,7 +8,6 @@ import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import np.com.percoid.mvvmsampleapp.MVVMApplication;
-import np.com.percoid.mvvmsampleapp.view.ui.MainActivity;
 
 /**
  * Created by Subrat on 12/26/2017.
